@@ -38,26 +38,10 @@ function show(req, res) {
 function destroy(req, res) {
     const id = parseInt(req.params.id);
 
-    const result = connection.find((post) => {
-        return post.id === id;
+    connection.query('DELETE FROM posts WHERE id = ?', [id], (err) => {
+        if (err) return res.status(500).json({ error: 'Failed to delete post' });
+        res.sendStatus(204)
     });
-
-    if (!result) {
-        res.status(404);
-
-        return res.json({
-            status: 404,
-            error: 'not found',
-            message: 'elemento non trovato'
-        })
-    }
-
-    connection.splice(connection.indexOf(result), 1);
-
-    console.log(connection)
-    //res.sendStatus è quello ch3e fornisce il messaggio, se scrivi solo status carica all'infinito
-    //status 204 indica che l'operazione è andata a buon fine
-    res.sendStatus(204)
 }
 
 //crea nuovo elemento
