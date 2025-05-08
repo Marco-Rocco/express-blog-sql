@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "express": "^4.21.2",
-    "exrpess": "^0.0.1-security"
+    "exrpess": "^0.0.1-security",
+    "mysql2": "^3.14.1"
   }
 }

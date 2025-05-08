@@ -1,8 +1,8 @@
-const posts = require('../data/postsArray')
+const posts = require('../data/db')
 
 //mostra tutti gli elementi
 function index(req, res) {
-    
+
     console.log('response was sent for /routers');
     console.log(req.query);
 
@@ -12,9 +12,9 @@ function index(req, res) {
 
     // console.log(req.query.tags)
 
-    if(req.query.tags) {
+    if (req.query.tags) {
         filteredPosts = posts.filter(post => post.tags.includes(req.query.tags))
-    
+
     }
 
     res.json(filteredPosts)
@@ -24,13 +24,13 @@ function index(req, res) {
 function show(req, res) {
     console.log('showing details for post ' + req.params.id);
 
-    const id =  parseInt(req.params.id);
+    const id = parseInt(req.params.id);
 
     const result = posts.find((post) => {
         return post.id === id;
     });
 
-    if(!result) {
+    if (!result) {
         res.status(404);
 
         return res.json({
@@ -51,7 +51,7 @@ function destroy(req, res) {
         return post.id === id;
     });
 
-    if(!result) {
+    if (!result) {
         res.status(404);
 
         return res.json({
@@ -72,17 +72,17 @@ function destroy(req, res) {
 //crea nuovo elemento
 function store(req, res) {
 
-    const newId = posts[posts.length -1].id +1
+    const newId = posts[posts.length - 1].id + 1
 
     const newPost = {
         id: newId,
         title: req.body.title,
         content: req.body.content,
         tags: req.body.tags
-        }
+    }
 
     posts.push(newPost);
-    
+
     console.log(posts);
 
     res.status(201);
@@ -92,13 +92,13 @@ function store(req, res) {
 function update(req, res) {
     console.log('modifying post ' + req.params.id);
 
-    const id =  parseInt(req.params.id);
+    const id = parseInt(req.params.id);
 
     const result = posts.find((post) => {
         return post.id === id;
     });
 
-    if(!result) {
+    if (!result) {
         res.status(404);
 
         return res.json({
@@ -109,7 +109,7 @@ function update(req, res) {
     }
 
     result.title = req.body.title;
-    result.content= req.body.content;
+    result.content = req.body.content;
     result.tags = req.body.tags;
 
     console.log(posts)
