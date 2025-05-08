@@ -1,23 +1,14 @@
-const posts = require('../data/db')
+const connection = require('../data/db')
 
 //mostra tutti gli elementi
 function index(req, res) {
 
-    console.log('response was sent for /routers');
-    console.log(req.query);
+    const sql = 'SELECT * FROM posts'
 
-    erroreFittizio()
-
-    let filteredPosts = posts;
-
-    // console.log(req.query.tags)
-
-    if (req.query.tags) {
-        filteredPosts = posts.filter(post => post.tags.includes(req.query.tags))
-
-    }
-
-    res.json(filteredPosts)
+    connection.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: 'Post non tovato' });
+        res.json(results);
+    })
 };
 
 //mstra solo elemento desiderato
@@ -26,7 +17,7 @@ function show(req, res) {
 
     const id = parseInt(req.params.id);
 
-    const result = posts.find((post) => {
+    const result = connection.find((post) => {
         return post.id === id;
     });
 
@@ -47,7 +38,7 @@ function show(req, res) {
 function destroy(req, res) {
     const id = parseInt(req.params.id);
 
-    const result = posts.find((post) => {
+    const result = connection.find((post) => {
         return post.id === id;
     });
 
@@ -61,9 +52,9 @@ function destroy(req, res) {
         })
     }
 
-    posts.splice(posts.indexOf(result), 1);
+    connection.splice(connection.indexOf(result), 1);
 
-    console.log(posts)
+    console.log(connection)
     //res.sendStatus è quello ch3e fornisce il messaggio, se scrivi solo status carica all'infinito
     //status 204 indica che l'operazione è andata a buon fine
     res.sendStatus(204)
@@ -72,7 +63,7 @@ function destroy(req, res) {
 //crea nuovo elemento
 function store(req, res) {
 
-    const newId = posts[posts.length - 1].id + 1
+    const newId = connection[connection.length - 1].id + 1
 
     const newPost = {
         id: newId,
@@ -81,9 +72,9 @@ function store(req, res) {
         tags: req.body.tags
     }
 
-    posts.push(newPost);
+    connection.push(newPost);
 
-    console.log(posts);
+    console.log(connection);
 
     res.status(201);
     res.json(newPost);
@@ -94,7 +85,7 @@ function update(req, res) {
 
     const id = parseInt(req.params.id);
 
-    const result = posts.find((post) => {
+    const result = connection.find((post) => {
         return post.id === id;
     });
 
@@ -112,7 +103,7 @@ function update(req, res) {
     result.content = req.body.content;
     result.tags = req.body.tags;
 
-    console.log(posts)
+    console.log(connection)
 
     res.json(result)
 };
