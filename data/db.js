@@ -10,4 +10,5 @@ connection.connect((err) => {
     if (err) throw err;
     console.log('NONNT');
 });
+
 module.exports = connection;

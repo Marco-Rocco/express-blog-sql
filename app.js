@@ -8,7 +8,7 @@ const postsRouter = require('./routers/postsRouter'); //importo il router dove h
 //importa l'errorsHandler
 const errorsHandler = require('./middlewares/errorsHandler');
 //importo il notFound
-const notFound= require('./middlewares/notFound')
+const notFound = require('./middlewares/notFound')
 
 //APP
 
@@ -20,7 +20,7 @@ app.use(express.static('public')); //rendo pubbliche le immagini
 app.use(express.json());
 
 //creo il colegamento per le rotte. quidni l'indice da inserire nell path
-app.use("/posts", postsRouter) 
+app.use("/posts", postsRouter)
 
 //imposta errorsHandler
 app.use(errorsHandler);
